@@ -1,1 +1,25 @@
 # gazelle:ignore
+
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+
+# Tag file consumed by the DockerHub push target in cmd/bb_browser.
+# With --stamp, produces "tt-<UTC-timestamp>-<git-short-sha>", matching
+# the date format that the upstream Buildbarn stamped_tags rule uses for
+# its own ghcr.io pushes. Without --stamp, falls back to a fixed
+# "tt-local" tag so dependent targets stay cacheable.
+#
+# Substitutes STABLE_BUILD_SCM_* (stable-status) rather than the
+# non-STABLE_ variants (volatile-status): Bazel invalidates action
+# cache entries when stable-status changes but NOT when volatile-
+# status changes. With the non-stable form, `bazel run --stamp
+# …:_push_dockerhub` after a rebase silently re-publishes the
+# previous build's tag because expand_template's cached output stays
+# put.
+expand_template(
+    name = "tt_tags",
+    out = "_tt.tags.txt",
+    stamp_substitutions = {"_TAG_": "tt-{{STABLE_BUILD_SCM_TIMESTAMP}}-{{STABLE_BUILD_SCM_REVISION}}"},
+    substitutions = {"_TAG_": "tt-local"},
+    template = ["_TAG_"],
+    visibility = ["//visibility:public"],
+)
