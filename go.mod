@@ -1,6 +1,6 @@
 module github.com/buildbarn/bb-browser
 
-go 1.26.1
+go 1.26.6
 
 // Newer versions aren't part of Bazel Central Registry.
 replace github.com/envoyproxy/protoc-gen-validate => github.com/envoyproxy/protoc-gen-validate v1.3.0
