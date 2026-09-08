@@ -11,6 +11,9 @@ bazel_dep(name = "gazelle", version = "0.47.0")
 bazel_dep(name = "platforms", version = "1.0.0")
 bazel_dep(name = "protobuf", version = "33.5")
 bazel_dep(name = "rules_go", version = "0.59.0")
+# Declared only so tools/container.bzl can load @rules_img; the version
+# tracks what our bb_storage pin already resolves.
+bazel_dep(name = "rules_img", version = "0.3.4")
 bazel_dep(name = "rules_jsonnet", version = "0.7.2")
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "toolchains_llvm", version = "1.6.0")
